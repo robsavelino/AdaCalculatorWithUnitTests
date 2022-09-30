@@ -11,7 +11,8 @@ namespace AdaCalculator.UnitTests
         public CalculatorUnitTests()
         { 
             mockCalculator = new Mock<ICalculator>();
-            sut = new CalculatorMachine(mockCalculator.Object);
+           
+            sut = new CalculatorMachine(new Calculator());
         }
 
         [Theory]
@@ -49,6 +50,46 @@ namespace AdaCalculator.UnitTests
             mockCalculator.Setup(x => x.Calculate(operation, a, b)).Returns((operation, result));
             sut.Calculate(operation, a, b);
             mockCalculator.Verify(x => x.Calculate(operation, a, b), Times.Once);
+        }
+
+
+        [Theory]
+        [InlineData("sum", 1, 2, 3)]
+        public void Calculate_CheckSumResult_ShouldReturnSum(string op, double a, double b, double result)
+        {
+            var got = sut.Calculate(op, a, b);
+            Assert.Equal(result, got.result);
+            Assert.Equal(op, got.operation);
+        }
+
+        [Theory]
+        [InlineData("subtract", 2, 1, 1)]
+        
+        public void Calculate_CheckSubtractionResult_ShouldReturnSubtraction(string op, double a, double b, double result)
+        {
+            var got = sut.Calculate(op, a, b);
+            Assert.Equal(result, got.result);
+            Assert.Equal(op, got.operation);
+        }
+
+        [Theory]
+        [InlineData("divide", 4, 2, 2)]
+
+        public void Calculate_CheckDivisionResult_ShouldReturnDivision(string op, double a, double b, double result)
+        {
+            var got = sut.Calculate(op, a, b);
+            Assert.Equal(result, got.result);
+            Assert.Equal(op, got.operation);
+        }
+
+        [Theory]
+        [InlineData("multiply", 2, 3, 6)]
+
+        public void Calculate_CheckMultiplyResult_ShouldReturnMultiplication(string op, double a, double b, double result)
+        {
+            var got = sut.Calculate(op, a, b);
+            Assert.Equal(result, got.result);
+            Assert.Equal(op, got.operation);
         }
 
     }
